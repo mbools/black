@@ -1,0 +1,44 @@
+<template name="adminPhysicalDevicesHome">
+    <!-- TODO Align right and make slightly larger. Probably better done as a pageHelp template -->
+    {{#onlyIfLoggedIn}}
+        {{> pageHelpButton doc="adminPhysicalDevicesHome"}}
+        {{#if Template.subscriptionsReady}}
+            {{> physicalDeviceList}}
+        {{/if}}
+    {{/onlyIfLoggedIn}}
+</template>
+
+<template name="physicalDeviceList">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{_ "name"}} {{> helpButton doc="physDevName"}}</th>
+            <th>{{_ "manufacturer"}} {{> helpButton doc="physDevManufacturer"}}</th>
+            <th>{{_ "model"}} {{> helpButton doc="physDevModel"}}</th>
+            <th>{{_ "description"}} {{> helpButton doc="physDevDescription"}}</th>
+            <th>{{_ "status"}} {{> helpButton doc="physDevStatus"}}</th>
+            <th>{{_ "controls"}} {{> helpButton doc="physDevControls"}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each physicalDevices}}
+            {{> physicalDeviceStatus}}
+        {{else}}
+            <tr>
+                <td colspan="5">{{_ "none"}}</td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</template>
+
+<template name="physicalDeviceStatus">
+    <tr>
+        <td><a href="{{configPath _id}}">{{header.name}}</a></td>
+        <td>{{header.manufacturer}}</td>
+        <td>{{header.model}}</td>
+        <td>{{header.description}}</td>
+        <td>{{#if running}}Running{{else}}Stopped{{/if}}</td>
+        <td><!--Controls--></td>
+    </tr>
+</template>

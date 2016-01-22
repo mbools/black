@@ -1,0 +1,33 @@
+<!--
+
+Templates for notifications, e.g. not authorised for access
+
+-->
+
+<template name="loading"> <!-- TODO make this more dynamic, e.g. on suitable display area use loading icon -->
+    <p>Loading...</p>
+</template>
+
+<template name="notAuthorised">
+    <div class="alert alert-danger fade in">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <strong>{{_ "not_authorised.title"}}.</strong>
+
+        <p>{{{_ "not_authorised.msg" permission }}}</p></div>
+</template>
+
+<template name="notLoggedIn">
+    <div class="alert alert-warning fade in">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <strong>{{_ "not_logged_in.title"}}.</strong>
+
+        <p>{{_ "not_logged_in.msg"}}</p></div>
+</template>
+
+<template name="notFound">
+    <div class="alert alert-danger fade in">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <strong>{{_ "page_not_found.title"}}.</strong>
+
+        <p>{{_ "page_not_found.msg"}}</p></div>
+</template>

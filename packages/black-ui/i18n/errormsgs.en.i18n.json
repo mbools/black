@@ -1,0 +1,14 @@
+{
+  "page_not_found": {
+    "title": "Page not found",
+    "msg": "If you ended up here, you've either clicked on a faulty part of the application or entered an invalid address."
+  },
+  "not_authorised": {
+    "title": "You are not authorised for this feature",
+    "msg": "<p>If you ended up here then you have attemped to access a feature for which you have no access permission.</p><p>You need to be logged in with %s permission.</p>"
+  },
+  "not_logged_in": {
+    "title": "Not logged in",
+    "msg": "If you ended up here then you need to login."
+  }
+}

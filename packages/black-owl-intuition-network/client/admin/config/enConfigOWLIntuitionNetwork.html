@@ -1,0 +1,48 @@
+<template name="enConfigOWLIntuitionNetwork">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>Configure OWL Intuition Device</h3>
+        </div>
+        <div class="panel-body">
+            {{#onlyIfAdministrator}}
+                {{> enConfigOWLIntuitionNetworkForm}}
+            {{/onlyIfAdministrator}}
+        </div>
+    </div>
+</template>
+
+<!--
+    There will only ever be one of these forms onscreen at a time, so the ids are not a problem.
+ -->
+<template name="enConfigOWLIntuitionNetworkForm">
+    {{#if Template.subscriptionsReady}}
+        <form id="ConfigOWLIntuitionNetworkForm" class="black-ui-form">
+            <div class="black-ui-fieldgroup">
+                <div class="black-ui-labelgroup">
+                    <label for="ConfigOWLIntuitionNetworkForm_port" class="{{conflicted}}">{{_ "port"}}:</label>
+                    <input id="ConfigOWLIntuitionNetworkForm_port" {{formDisabled}} type="number" name="port"
+                           value={{port}}>
+                    {{> helpButton doc="OWLIntuitionNetworkPort"}}
+                </div>
+                <div class="black-ui-labelgroup">
+                    <label for="ConfigOWLIntuitionNetworkForm_udpgroup" class="{{conflicted}}">{{_ "udpgroup"}}:</label>
+                    <input id="ConfigOWLIntuitionNetworkForm_udpgroup" {{formDisabled}} type="text" name="udpgroup"
+                           value={{udpgroup}}>
+                    {{> helpButton doc="OWLIntuitionNetworkUDPGroup"}}
+                </div>
+            </div>
+            <input id="submitButton" {{formInvalid}} {{formDisabled}} type="submit" value="{{_ 'Update'}}"
+                   class="btn btn-default"
+                   title="Store device settings">
+            <button id="resetButton" type="button" value="Reset" class="btn btn-default"
+                    title="Restore current values">{{_ "Reset"}}</button>
+        </form>
+        <button id="runButton" type="button" {{formInvalid}}  value={{isRunning}} class="btn btn-default" title="Toggle device on/off">{{#if isRunning}}{{_ "Stop"}}{{else}}{{_ "Start"}}{{/if}}</button>
+        {{#if conflicted}}
+            <div class="alert-danger">
+                <span class="glyphicon glyphicon-alert"></span>
+                This Port and UDPGroup combination is in use by another device.
+            </div>
+        {{/if}}
+    {{/if}}
+</template>

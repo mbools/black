@@ -1,0 +1,72 @@
+<template name='top_bar'>
+    <header>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="">Black</a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav nav">
+                        <li class="{{activeIfRouteHas 'name' 'homepage'}}">
+                            <a href="/">{{_ "home"}}</a>
+                        </li>
+                        {{#if currentUser}}
+                            <li class="dropdown">
+                                <a  class="btn dropdown-toggle" data-target="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                   aria-expanded="false">{{_ "view"}} <span class="caret"></span></a>
+                                <ul class="dropdown-menu multi-level">
+                                    <li class="dropdown-submenu">
+                                        <a data-target="#">{{_ "detail_level"}}</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a data-target="#"  id="black_dl_novice">{{_ "novice"}}</a></li>
+                                            <li><a data-target="#" id="black_dl_intermediate">{{_ "intermediate"}}</a></li>
+                                            <li><a data-target="#" id="black_dl_expert">{{_ "expert"}}</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="{{activeIfRouteHas 'groupPrefix' '/design'}}"><a
+                                    href="/design">{{_ "design"}}</a></li>
+                            <!-- TODO: Should really only appear when in 'design' mode -->
+                        {{/if}}
+                        {{#if isInRole 'admin'}}
+                            <li class="dropdown btn-group {{activeIfRouteHas 'groupPrefix' '/admin'}}">
+                                <a role="button" class="btn" href="/admin">{{_ "admin"}}</a>
+                                <a class="btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                   aria-expanded="false"><span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li class="{{activeIfRouteHas 'name' 'manageUsers'}}">
+                                        <a href="/admin/users">{{_ "Manage Users"}}</a>
+                                    </li>
+                                    <li class="{{activeIfRouteHas 'name' 'managePhysDevices'}}">
+                                        <a href="/admin/physicalDevices">{{_ "Manage Physical Devices"}}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        {{/if}}
+                        <li class="dropdown btn-group {{activeIfRouteHas 'groupPrefix' '/help'}}">
+                            <a role="button" class="btn" href="/help">{{_ "help"}}</a>
+                            <a class="btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                               aria-expanded="false" href="/help"><span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li class="{{activeIfRouteHas 'name' 'docsHome'}}">
+                                    <a href="/help/docs">{{_ "documentation"}}</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {{>loginButtons}}
+                    </ul>
+                </div> <!-- .navbar-collapse -->
+            </div>  <!-- .container-fluid -->        </nav> <!-- .navbar -->
+    </header>
+</template>

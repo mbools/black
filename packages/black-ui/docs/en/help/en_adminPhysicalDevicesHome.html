@@ -1,0 +1,43 @@
+<template name="en_adminPhysicalDevicesHome_title">
+    Physical Device Administration
+</template>
+<template name="en_adminPhysicalDevicesHome">
+    {{#markdown}}
+This page is used to administer all physical devices attached to the system.
+
+Filtering
+---------
+
+On larger installations the list of physical devices can become very long and finding the one you are looking for
+can be tiresome, so you can filter the list of displayed devices.
+
+Sorting
+-------
+
+To help in finding the device you are looking for you can sort the list using the sort icons at the top of the
+table columns.
+
+Click once to sort, click a second time to sort in reverse.
+
+Multiple columns can be sorted by sorting the first column as normal, and subsequently ctrl-clicking
+sort icons. Each subsequent sort icon will the sort that column as a sub-sort (items are first ordered by
+first column and then by the second, and so on.
+
+Multicolumn sorting only makes sense when the first sort results in grouping of the second item. For example,
+sorting by manufacturer will naturally group all models associated with that manufacturer, you can then
+sort by model and the models will be sorted but only within their manufacturer group.
+
+Adding Physical Devices
+-----------------------
+
+In the work panel to the right of the table is the list of physical device types your system supports. Right click
+on the type you want to add and select `Add device...`. This will open a device configuration panel where
+you can complete the configuration of the device.
+
+Once a device is added it will appear in the device list.
+
+
+
+
+    {{/markdown}}
+</template>

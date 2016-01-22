@@ -1,0 +1,2 @@
+Black.Collections.DeviceTemplates = new Mongo.Collection('Black.Core.DeviceTemplates');  // Tempaltes for creating new devices
+Black.Collections.Devices = new Mongo.Collection('Black.Core.Devices');                  // Actually configured devices

@@ -1,0 +1,40 @@
+<template name="enCreateOWLIntuitionNetwork">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>Adding OWL Intuition Network Device</h3>
+        </div>
+        <div class="panel-body">
+            {{> enCreateOWLIntuitionNetworkForm}}
+        </div>
+    </div>
+</template>
+
+<!--
+    There will only ever be one of these forms onscreen at a time, so the ids are not a problem.
+ -->
+<template name="enCreateOWLIntuitionNetworkForm">
+    {{#if Template.subscriptionsReady}}
+        <form id="CreateOWLIntuitionNetworkForm" class="black-ui-form">
+            <div class="black-ui-fieldgroup">
+                <div class="black-ui-labelgroup">
+                    <label for="CreateOWLIntuitionNetworkForm_port">{{_ "port"}}:</label>
+                    <input id="CreateOWLIntuitionNetworkForm_port" {{formDisabled}} type="number" name="port"
+                           value={{port}}>
+                    {{> helpButton doc="OWLIntuitionNetworkPort"}}
+                </div>
+                <div class="black-ui-labelgroup">
+                    <label for="CreateOWLIntuitionNetworkForm_udpgroup">{{_ "udpgroup"}}:</label>
+                    <input id="CreateOWLIntuitionNetworkForm_udpgroup" {{formDisabled}} type="text"
+                           name="udpgroup"
+                           value={{udpgroup}}>
+                    {{> helpButton doc="OWLIntuitionNetworkUDPGroup"}}
+                </div>
+            </div>
+            <input id="submitButton" {{formInvalid}} type="submit" value="{{_ 'Create'}}"
+                   class="btn btn-default"
+                   title="Store device settings">
+            <button id="resetButton" type="button" value="Reset" class="btn btn-default"
+                    title="Restore starting values">{{_ "Reset"}}</button>
+        </form>
+    {{/if}}
+</template>

@@ -1,0 +1,18 @@
+<template name="black_ui_physicalDeviceTemplateList">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Physical Device Templates</h3>
+        </div>
+        <div class="panel-body" style="padding-left:0px">
+            <div id="devtree" class="black-ui-jstree">
+                <!-- Populated by template onRendered() method -->
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="black_ui_physicalDeviceTemplateListItemLI">
+    <li data-tplid="{{ _id}}">{{name}}<a href="#"><span
+            class="glyphicon glyphicon-info-sign"
+            aria-hidden="true"></span></a></li>
+</template>

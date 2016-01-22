@@ -1,0 +1,147 @@
+@import "/vendor/bootstrap3.variables.less";
+
+
+//////////////////////////////////////
+// Tweaks to bootstrap styling
+.btn.help {
+  padding: 1px;
+  color: @brand-info;
+  background-color: transparent;
+  border-color: transparent;
+
+  &.page-help {
+    font-size: 2em;
+    float: right;
+  }
+
+}
+
+
+// Tighten button to dropdown caret distance to improve visual association in navbar-header
+.navbar .dropdown.btn-group a.btn {
+  padding-right: 0px;
+}
+.navbar .dropdown.btn-group a.btn.dropdown-toggle {
+  padding-left: 3px;
+  padding-right: 15px;
+}
+
+
+// Add multi-level submenus to bootstrap
+// Kudos: http://bootsnipp.com/snippets/featured/multi-level-dropdown-menu-bs3
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  -webkit-border-radius: 0 6px 6px 6px;
+  -moz-border-radius: 0 6px 6px;
+  border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #ccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+  border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+  float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  -webkit-border-radius: 6px 0 6px 6px;
+  -moz-border-radius: 6px 0 6px 6px;
+  border-radius: 6px 0 6px 6px;
+}
+
+
+
+
+
+//////////////////////////////////////
+// Change bootstrap modal so that only body scrolls when content overflows.
+// TODO This works fine on modern browsers, but will need more work to support older browsers
+#helpModal {
+  width: 50%;
+  height: 50%;
+  margin: auto;
+}
+
+#helpModal div.modal-dialog {
+  height: 100%;
+  margin: 0px auto;
+}
+
+#helpModal div.modal-content {
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+#helpModal div.modal-body {
+  flex: 1 0 auto;
+  overflow-y: auto;
+  height: 10%;
+  margin-right: 5px;
+}
+
+
+#workpanel {
+//  overflow: hidden;
+  margin-right: -15px;
+}
+
+#workpanel .panel {
+  padding: 0px 0px 0px 0px;
+
+}
+
+.black-ui-jstree {
+}
+
+.black-ui-jstree .jstree-container-ul {
+  width: 100%;
+  overflow: hidden;
+}
+
+.black-ui-jstree .jstree-node {
+}
+
+
+.black-ui-form .black-ui-fieldgroup {
+  margin-bottom: 10px;
+
+  & .black-ui-labelgroup {
+    display: table-row;
+
+    & label, & input {
+      display: table-cell;
+      padding-right: 5px;
+      text-align: right;
+    }
+  }
+
+}

@@ -1,0 +1,41 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+
+<template name="main">
+    {{> Template.dynamic template=header}}
+    <div class="container-fluid">
+        <div class="col-sm-10">
+        {{> Template.dynamic template=main}}
+        </div>
+        <div class="col-sm-2"> <!-- On non-phone devices, shows context sensitive utility panels to right of main workarea -->
+            {{> Template.dynamic template=workpanel}}
+        </div>
+        {{> helpModal}}
+    </div>
+</template>
+
+<template name="onlyIfLoggedIn">
+    {{#if authInProcess}}
+        {{> loading}}
+    {{else}}
+        {{#if isLoggedIn}}
+                {{> UI.contentBlock }}
+        {{else}}
+            {{> notLoggedIn}}
+        {{/if}}
+    {{/if}}
+</template>
+
+<template name="onlyIfAdministrator">
+    {{#if authInProcess}}
+        {{> loading}}
+    {{else}}
+        {{#if isInRole 'admin'}}
+            {{> UI.contentBlock }}
+        {{else}}
+            {{> notAuthorised permission="admin"}}
+        {{/if}}
+    {{/if}}
+</template>

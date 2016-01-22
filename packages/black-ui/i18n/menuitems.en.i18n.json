@@ -1,0 +1,12 @@
+{
+  "view": "View",
+  "detail_level": "Detail Level",
+  "novice": "Novice",
+  "intermediate": "Intermediate",
+  "expert": "Expert",
+  "home": "Home",
+  "design": "Design",
+  "admin": "Admin",
+  "documentation": "Documentation",
+  "help": "Help"
+}

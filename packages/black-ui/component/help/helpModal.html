@@ -1,0 +1,18 @@
+<template name="helpModal">
+    {{#if activeHelp}}
+        <div class="modal fade" id="helpModal" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                        <h3 class="modal-title">{{> Template.dynamic template=activeHelpTitle}}</h3>
+                    </div>
+                    <div class="modal-body">
+                            {{> Template.dynamic template=activeHelp}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/if}}
+</template>

@@ -1,0 +1,11 @@
+<template name="adminConfigPhysicalDevice">
+    {{#if Template.subscriptionsReady}}
+        {{#onlyIfLoggedIn}}
+            {{#if device}}
+                {{> Template.dynamic template=template data=device}}
+            {{else}}
+                <!-- TODO Error page? -->
+            {{/if}}
+        {{/onlyIfLoggedIn}}
+    {{/if}}
+</template>

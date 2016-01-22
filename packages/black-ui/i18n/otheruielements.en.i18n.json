@@ -1,0 +1,25 @@
+{
+  ///////////////////////////////////////////////////////////////////////////////
+  // General
+  "help": "Help",
+  "close": "Close",
+  "delete": "Delete",
+  "redo": "Redo",
+  "undo": "Undo",
+  "none": "None",
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // admin screens
+
+  /////////////////////////////
+  // devices
+  "name": "Name",
+
+  /////////////////////////////
+  // physical devices table
+  "manufacturer": "Manufacturer",
+  "model": "Model",
+  "description": "Description",
+  "status": "Status",
+  "controls": "Controls"
+}
