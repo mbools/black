@@ -14,16 +14,17 @@ In order to ensure that this global exists for the main body of code it is decla
 `globals`. Refer to the package `README.MD` for details.
 
 
-###Documentation
-Overview in root `README.MD`.
+###Organisation
+The entire project is now broken into internal packages. This simplifies load order, separates concerns (allowing
+others to more easily use the packages independently) and, in time, provide a more flexible system for testing.
 
-Specific design decisions and general documentation specific to system parts in `_DESIGN.MD` files.
-*Warning* these are live documents and may become stale over time.
+The main packages are currently:
 
-###Directory structure
 
-Code for the most global and core features is organised at the root of the project in `lib`, `client`, `server`,
-`public`, `private`, `i18n`, `model` directories.
+- `black-global` as the name suggests, provides the global namespace
+- `black-core` server side and core functionality.
+- `black-ui` mainly client side. Provides the main UI components.
 
-Code specific to a feature is placed in a directory `feature/XXX` (XXX being the feature's name), the structure within
-the feature directory uses the familiar `client`, `server`, etc. pattern.
+Also in here at the moment:
+
+`black-owl-intuition-network` plugin to interface to the OWL Intuition Network device.
