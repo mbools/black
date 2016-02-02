@@ -21,7 +21,7 @@ others to more easily use the packages independently) and, in time, provide a mo
 The main packages are currently:
 
 
-- `black-global` as the name suggests, provides the global namespace
+- `black-globals` as the name suggests, provides the global namespace
 - `black-core` server side and core functionality.
 - `black-ui` mainly client side. Provides the main UI components.
 

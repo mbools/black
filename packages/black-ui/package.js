@@ -111,6 +111,8 @@ Package.onUse(function (api) {
         'docs/en/help/en_physDevManufacturer.html',
         'docs/en/help/en_physDevModel.html',
         'docs/en/help/en_physDevName.html',
+        'docs/en/help/en_physDevAutostart.html',
+        'docs/en/help/en_physDevBackfill.html',
     ], ['client']);
 
 

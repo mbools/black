@@ -1,4 +1,11 @@
 {
   "port": "Port",
-  "udpgroup": "UDP Group"
+  "udpgroup": "UDP Group",
+  "backfill" : "Backfill data",
+  "autostart": "Start device automatically",
+  "username": "Username",
+  "password": "Password",
+  "enterOWLDetails": "Enter login details for OWL Intuition website",
+  "owlUsername": "OWL Username",
+  "owlPassword": "OWL Password"
 }

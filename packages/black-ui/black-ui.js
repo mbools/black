@@ -66,6 +66,19 @@ Template.registerHelper('userLevelAbove', (level) => {
     return false;
 });
 
+
+Template.registerHelper('userLevelIsOrAbove', (level) => {
+    let user = Meteor.user();
+    let detailLevel = level;
+    if (typeof level === 'string') {
+        detailLevel = Black.Constants.detailLevel[level];
+    }
+    if (user) {
+        return (user.profile.detailLevel >= detailLevel)
+    }
+    return false;
+});
+
 Template.registerHelper('userLevelBelow', (level) => {
     let user = Meteor.user();
     let detailLevel = level;
@@ -74,6 +87,19 @@ Template.registerHelper('userLevelBelow', (level) => {
     }
     if (user) {
         return (user.profile.detailLevel < detailLevel)
+    }
+    return true;
+});
+
+
+Template.registerHelper('userLevelIsOrBelow', (level) => {
+    let user = Meteor.user();
+    let detailLevel = level;
+    if (typeof level === 'string') {
+        detailLevel = Black.Constants.detailLevel[level];
+    }
+    if (user) {
+        return (user.profile.detailLevel <= detailLevel)
     }
     return true;
 });

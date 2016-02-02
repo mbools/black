@@ -14,6 +14,16 @@ const HEADER = {
     factory: 'OWLIntuitionNetwork'
 };
 
+
+const SUBDEVHEADER = {
+    manufacturer: 'OWL',
+    model: 'some other model',
+    type: 'physical',
+    name: 'OWL Intuition Network',
+    factory: 'OWLIntuitionNetwork'
+};
+
+
 let RunningDevices = [];
 
 const log = new Logger('OwlIntuition');
@@ -63,7 +73,14 @@ const owlIntuitionNetwork = stampit({
                             let deviceId = result.electricity.$.id;
                             let deviceInfo = Black.Collections.Devices.findOne({_id: deviceId});
                             if (!deviceInfo) {
-                                deviceInfo = {_id: deviceId, type: 'electricity', watching: false};
+                                deviceInfo = {
+                                    _id: deviceId,
+                                    header: SUBDEVHEADER,
+                                    type: 'electricity',
+                                    watching: false,
+                                    recording: false,
+                                    parent: self._id
+                                };
                                 Black.Collections.Devices.insert(deviceInfo, function (err, result) {
                                     if (err) log.error(`Failed to add OWLIntuitionNetwork device id:${deviceId} to Devices. With Error: ${err}`);
                                 });
@@ -78,18 +95,22 @@ const owlIntuitionNetwork = stampit({
                                     let dayWh = channels[i].day[0]._ / ((channels[i].day[0].$.units === 'wh') ? 1 : 1000);
                                     channelData[channels[i].$.id] = {current: currWh, dayToDate: dayWh};
                                 }
-                                OWLData.insert({
-                                    'deviceId': deviceId,
-                                    time: seenAt,
-                                    signal: {
-                                        strength: result.electricity.signal[0].$.rssi,
-                                        quality: result.electricity.signal[0].$.lqi
-                                    },
-                                    data: channelData
-                                }, function (err, result) {
-                                    if (err) log.error(`Error inserting OWL data. With Error: ${err}`);
-                                    if (result) log.debug(`Inserted OWLData record with id: ${result}`);
-                                });
+                                // TODO Generate internal event announcing watched data
+                                log.debug(`Saw OWLData record with id: ${deviceId}`);
+                                if (deviceInfo.recording) {
+                                    OWLData.insert({
+                                        'deviceId': deviceId,
+                                        time: seenAt,
+                                        signal: {
+                                            strength: result.electricity.signal[0].$.rssi,
+                                            quality: result.electricity.signal[0].$.lqi
+                                        },
+                                        data: channelData
+                                    }, function (err, result) {
+                                        if (err) log.error(`Error inserting OWL data. With Error: ${err}`);
+                                        if (result) log.debug(`Inserted OWLData record with id: ${result}`);
+                                    });
+                                }
                             }
                             break;
                         default:
@@ -109,6 +130,12 @@ const owlIntuitionNetwork = stampit({
                 log.info(`Starting OWL Intuition Network device on port: ${this.port} & udpgroup: ${this.udpgroup}`);
                 RunningDevices.push(this);
                 Black.Collections.Devices.update({_id: this._id}, {$set: {running: true}});
+                // Mark all this device's children as running
+                Black.Collections.Devices.update({parent: this._id},
+                    {
+                        $set: {running: true}
+                    });
+
             }
             catch (err) {
                 log.error(err);
@@ -123,9 +150,14 @@ const owlIntuitionNetwork = stampit({
                 this.client.close();
                 let pos = RunningDevices.indexOf(this);
                 if (pos >= 0) {
-                    RunningDevices.splice(pos,1);
+                    RunningDevices.splice(pos, 1);
                 }
                 Black.Collections.Devices.update({_id: this._id}, {$set: {running: false}});
+                // Mark all this device's children stopped
+                Black.Collections.Devices.update({parent: this._id},
+                    {
+                        $set: {running: false}
+                    });
             }
             catch (err) {
                 log.error(err);
@@ -140,7 +172,7 @@ const owlIntuitionNetwork = stampit({
     }
 });
 
-//Assemble our factory...c
+//Assemble our factory...
 Black.devicePlugins.OWLIntuitionNetwork = Black.Core.PhysicalDevice.compose(owlIntuitionNetwork);
 
 Meteor.methods({
@@ -160,7 +192,9 @@ Meteor.methods({
         let dev = Black.Collections.Devices.findOne({_id: devId});
         if (dev) {
             if (Black.Collections.Devices.findOne({_id: devId}).running) {
-                let realDevice = RunningDevices.find((elem) => { return elem._id === devId});
+                let realDevice = RunningDevices.find((elem) => {
+                    return elem._id === devId
+                });
                 if (realDevice) {
                     realDevice.stop();
                 }
@@ -194,7 +228,9 @@ Meteor.methods({
                 {
                     $set: {
                         port: dev.port,
-                        udpgroup: dev.udpgroup
+                        udpgroup: dev.udpgroup,
+                        startOnServerStart: dev.startOnServerStart,
+                        backfill: dev.backfill
                     }
                 });
             if (result.nModified > 1) {
@@ -203,6 +239,44 @@ Meteor.methods({
             return true;
         }
         return false;
+    },
+    toggleWatch(dev) {
+        let thisDev = Black.Collections.Devices.findOne({_id: dev});
+        let newRecording = thisDev.recording;
+        let newWatching = !thisDev.watching;
+        if (!newWatching) { // we're about to turn off watching, so recording will also be turned off
+            newRecording = false;
+        }
+        let result = Black.Collections.Devices.update({_id: dev},
+            {
+                $set: {
+                    watching: newWatching,
+                    recording: newRecording
+                }
+            });
+        if (result.nModified > 1) {
+            log.error(`OWL update effected more than one matching entry: ${dev}`);
+        }
+        return newWatching;
+    },
+    toggleRecord(dev) {
+        let thisDev = Black.Collections.Devices.findOne({_id: dev});
+        let newRecording = !thisDev.recording;
+        let newWatching = thisDev.watching;
+        if (newRecording) { // we're about to turn on recording, so watching will also be turned on
+            newWatching = true;
+        }
+        let result = Black.Collections.Devices.update({_id: dev},
+            {
+                $set: {
+                    watching: newWatching,
+                    recording: newRecording
+                }
+            });
+        if (result.nModified > 1) {
+            log.error(`OWL update effected more than one matching entry: ${dev}`);
+        }
+        return newRecording;
     }
 });
 

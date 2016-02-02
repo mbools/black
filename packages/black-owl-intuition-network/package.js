@@ -23,13 +23,15 @@ Package.onUse(function (api) {
     api.use('mbools:black-ui');
 
 
-
     api.addFiles([
             'collections.js',
         ],
         ['client', 'server']);
 
-    api.addFiles('server/OwlIntuition.js', ['server']);
+    api.addFiles([
+        'server/OwlIntuition.js',
+        'server/publications.js',
+    ], ['server']);
 
 
     api.addFiles(
@@ -48,6 +50,7 @@ Package.onUse(function (api) {
     api.addFiles([
             'i18n/fieldlabels.en.i18n.json',
             'i18n/buttonlabels.en.i18n.json',
+            'i18n/tooltips.en.i18n.json',
         ],
         ['client', 'server']);
 

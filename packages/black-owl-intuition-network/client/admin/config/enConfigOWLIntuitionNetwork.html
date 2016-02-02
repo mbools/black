@@ -1,14 +1,30 @@
-<template name="enConfigOWLIntuitionNetwork">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3>Configure OWL Intuition Device</h3>
-        </div>
-        <div class="panel-body">
-            {{#onlyIfAdministrator}}
-                {{> enConfigOWLIntuitionNetworkForm}}
-            {{/onlyIfAdministrator}}
+<template name="enConfigOWLIntuitionNetwork" xmlns="http://www.w3.org/1999/html">
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>Configure OWL Intuition Device</h3>
+            </div>
+            <div class="panel-body">
+                {{#onlyIfAdministrator}}
+                    {{> enConfigOWLIntuitionNetworkForm}}
+                {{/onlyIfAdministrator}}
+            </div>
         </div>
     </div>
+    {{#if detectedDevices}}
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Configure Detected Sensors</h3>
+                </div>
+                <div class="panel-body">
+                    {{#onlyIfAdministrator}}
+                        {{> enConfigOWLIntuitionNetworkDetectedDevTable}}
+                    {{/onlyIfAdministrator}}
+                </div>
+            </div>
+        </div>
+    {{/if}}
 </template>
 
 <!--
@@ -16,28 +32,82 @@
  -->
 <template name="enConfigOWLIntuitionNetworkForm">
     {{#if Template.subscriptionsReady}}
-        <form id="ConfigOWLIntuitionNetworkForm" class="black-ui-form">
-            <div class="black-ui-fieldgroup">
-                <div class="black-ui-labelgroup">
-                    <label for="ConfigOWLIntuitionNetworkForm_port" class="{{conflicted}}">{{_ "port"}}:</label>
-                    <input id="ConfigOWLIntuitionNetworkForm_port" {{formDisabled}} type="number" name="port"
-                           value={{port}}>
+        <form id="ConfigOWLIntuitionNetworkForm" class="form-horizontal">
+            <div>
+                <div class="form-group {{conflicted}} {{portInvalid}}">
+                    <label for="ConfigOWLIntuitionNetworkForm_port"
+                           class="col-sm-2 control-label">{{_ "port"}}:</label>
+                    <div class="col-sm-9">
+                        <input id="ConfigOWLIntuitionNetworkForm_port" {{formDisabled}} type="number" name="port"
+                               value="{{port}}" class="form-control">
+                    </div>
                     {{> helpButton doc="OWLIntuitionNetworkPort"}}
                 </div>
-                <div class="black-ui-labelgroup">
-                    <label for="ConfigOWLIntuitionNetworkForm_udpgroup" class="{{conflicted}}">{{_ "udpgroup"}}:</label>
-                    <input id="ConfigOWLIntuitionNetworkForm_udpgroup" {{formDisabled}} type="text" name="udpgroup"
-                           value={{udpgroup}}>
+                <div class="form-group {{conflicted}} {{udpgroupInvalid}}">
+                    <label for="ConfigOWLIntuitionNetworkForm_udpgroup"
+                           class="col-sm-2 control-label">{{_ "udpgroup"}}:</label>
+                    <div class="col-sm-9">
+                        <input id="ConfigOWLIntuitionNetworkForm_udpgroup" {{formDisabled}} type="text" name="udpgroup"
+                               value="{{udpgroup}}" class="form-control">
+                    </div>
                     {{> helpButton doc="OWLIntuitionNetworkUDPGroup"}}
                 </div>
             </div>
+            {{#if userLevelIs "EXPERT"}}
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                <input id="ConfigOWLIntuitionNetworkForm_autostart" {{formDisabled}} type="checkbox"
+                                       name="autostart"
+                                    {{autostartChecked}}> {{_ "autostart"}}
+                            </label>
+                            {{> helpButton doc="physDevAutostart"}}
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input id="ConfigOWLIntuitionNetworkForm_backfill" {{formDisabled}} type="checkbox"
+                                       name="backfill"
+                                    {{backfillChecked}}> {{_ "backfill"}}
+                            </label>
+                            {{> helpButton doc="physDevBackfill"}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-offset-3 col-sm-9">
+                    {{#if showOWLFields}}
+                        <p>{{_ 'enterOWLDetails'}}</p>
+                        <div class="form-group">
+                            <label for="ConfigOWLIntuitionNetworkForm_backfill_username"
+                                   class="col-sm-2 control-label">{{_ "username"}}</label>
+                            <div class="col-sm-3">
+                                <input id="ConfigOWLIntuitionNetworkForm_backfill_username" {{formDisabled}} type="text"
+                                       name="username" class="form-control" placeholder="{{_ 'owlUsername'}}"
+                                       value="{{username}}">
+                            </div>
+                            {{> helpButton doc="OWLIntuitionNetworkBFUsername"}}
+                        </div>
+                        <div class="form-group">
+                            <label for="ConfigOWLIntuitionNetworkForm_backfill_password"
+                                   class="col-sm-2 control-label">{{_ "password"}}</label>
+                            <div class="col-sm-3">
+                                <input id="ConfigOWLIntuitionNetworkForm_backfill_password" {{formDisabled}}
+                                       type="password" name="password" class="form-control"
+                                       placeholder="{{_ 'owlPassword'}}" value="{{password}}">
+                            </div>
+                            {{> helpButton doc="OWLIntuitionNetworkBFPassword"}}
+                        </div>
+                    {{/if}}
+                </div>
+            {{/if}}
             <input id="submitButton" {{formInvalid}} {{formDisabled}} type="submit" value="{{_ 'Update'}}"
                    class="btn btn-default"
                    title="Store device settings">
             <button id="resetButton" type="button" value="Reset" class="btn btn-default"
-                    title="Restore current values">{{_ "Reset"}}</button>
+                    title="Restore current values" {{formDisabled}}>{{_ "Reset"}}</button>
         </form>
-        <button id="runButton" type="button" {{formInvalid}}  value={{isRunning}} class="btn btn-default" title="Toggle device on/off">{{#if isRunning}}{{_ "Stop"}}{{else}}{{_ "Start"}}{{/if}}</button>
+        <button id="runButton" type="button" {{formInvalid}}  value="{{isRunning}}" class="btn btn-default"
+                title="Toggle device on/off">{{#if isRunning}}{{_ "Stop"}}{{else}}{{_ "Start"}}{{/if}}</button>
         {{#if conflicted}}
             <div class="alert-danger">
                 <span class="glyphicon glyphicon-alert"></span>
@@ -45,4 +115,30 @@
             </div>
         {{/if}}
     {{/if}}
+</template>
+
+<template name="enConfigOWLIntuitionNetworkDetectedDevTable">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Device</th>
+                <th>Type</th>
+                <th>Controls</th>
+            </tr>
+        </thead>
+        <tbody>
+        {{#each detectedDevices}}
+            {{> enConfigOWLIntuitionNetworkDetectedDevTableRow}}
+        {{/each}}
+        </tbody>
+    </table>
+</template>
+
+<template name="enConfigOWLIntuitionNetworkDetectedDevTableRow">
+    <tr data-device="{{_id}}">
+        <td>{{_id}}</td>
+        <td>{{type}}</td>
+        <td>{{#if watching}}<a href="#" class="OWLwatch btn btn-xs btn-primary" role="button" {{disableOnStoppedParent}} title="{{_ 'WatchSensorOn'}}"><span class="glyphicon glyphicon-eye-open"></span></a>{{else}}<a href="#" class="OWLwatch btn btn-xs btn-default" role="button"  title="{{_ 'WatchSensorOff'}}" {{disableOnStoppedParent}}><span class="glyphicon glyphicon-eye-close OWLwatch"></span></a>{{/if}}
+        {{#if recording}}<a href="#" class="OWLrecord btn btn-xs btn-primary" role="button" {{disableOnStoppedParent}} title="{{_ 'RecordSensorOn'}}"><span class="glyphicon glyphicon-cd"></span></a>{{else}}<a href="#" class="OWLrecord btn btn-xs btn-default" role="button"  title="{{_ 'RecordSensorOff'}}" {{disableOnStoppedParent}}><span class="glyphicon glyphicon-cd"></span></a>{{/if}}</td>
+    </tr>
 </template>
