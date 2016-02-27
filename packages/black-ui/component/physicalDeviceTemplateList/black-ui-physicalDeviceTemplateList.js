@@ -12,10 +12,10 @@ Template.black_ui_physicalDeviceTemplateList.onRendered(function () {
             data(node, cb) {
                 let nodes=[];
                 Black.Collections.DeviceTemplates
-                    .find({type: Black.Constants.deviceTypes.PHYSICAL})
+                    .find({'header.type': Black.Constants.deviceTypes.PHYSICAL})
                     .forEach((dev) => {
                         nodes.push({
-                            text: dev.name,
+                            text: dev.header.name,
                             li_attr: {'data-tplid': dev._id}
                         })
                     });
@@ -48,6 +48,6 @@ Template.black_ui_physicalDeviceTemplateList.onRendered(function () {
 
 Template.black_ui_physicalDeviceTemplateList.helpers({
     physicalDeviceTemplates: function () {
-        return Black.Collections.DeviceTemplates.find({type: Black.Constants.deviceTypes.PHYSICAL});
+        return Black.Collections.DeviceTemplates.find({'header.type': Black.Constants.deviceTypes.PHYSICAL});
     }
 });

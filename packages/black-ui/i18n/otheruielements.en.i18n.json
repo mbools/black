@@ -8,6 +8,10 @@
   "undo": "Undo",
   "none": "None",
 
+  "configure": "Configure",
+  "delete": "Delete",
+  "cancel": "Cancel",
+
   ///////////////////////////////////////////////////////////////////////////////
   // admin screens
 

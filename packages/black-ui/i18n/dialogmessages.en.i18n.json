@@ -1,0 +1,10 @@
+{
+  "warnNoUndo": "This operation cannot be undone!",
+  "warnPhyDevDelete": "You are about to delete %s",
+  "ConfirmDeletion": "Confirm Deletion",
+  "warnAssociatedDevs": "This device has associated devices, listed below, that will also be deleted.",
+  "deviceDoesNotExist": "This device does not exist.",
+  "waitOnSensor": "Waiting for first sensor to report",
+  "startToDetect": "Start device to detect sensors"
+
+}

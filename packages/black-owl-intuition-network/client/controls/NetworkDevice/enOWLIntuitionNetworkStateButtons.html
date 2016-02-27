@@ -1,0 +1,11 @@
+<template name="enOWLIntuitionNetworkStateButtons">
+    <div data-device="{{_id}}">
+        {{> ConfigPhysDevButton dev=_id}}
+        {{#if running}}<a href="#" class="OWLrunning btn btn-xs btn-primary" role="button"
+                          title="{{_ 'SensorOn'}}"><span class="glyphicon glyphicon-off"></span></a>{{else}}<a
+                href="#" class="OWLrunning btn btn-xs btn-default" role="button"
+                title="{{_ 'SensorOff'}}"><span
+                class="glyphicon glyphicon-off OWLrunning"></span></a>{{/if}}
+        {{> DeletePhysDevButton dev=_id}}
+    </div>
+</template>

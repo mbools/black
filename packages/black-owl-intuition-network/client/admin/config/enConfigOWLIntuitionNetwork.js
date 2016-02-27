@@ -34,7 +34,6 @@ Template.enConfigOWLIntuitionNetworkForm.onCreated(function () {
 });
 
 Template.enConfigOWLIntuitionNetworkForm.onRendered(function () {
-
 });
 
 
@@ -193,56 +192,13 @@ Template.enConfigOWLIntuitionNetworkForm.helpers({
 
 
 Template.enConfigOWLIntuitionNetworkDetectedDevTable.helpers({
+    isRunning() {
+        return Black.Collections.Devices.findOne({_id: Template.currentData()._id}).running;
+    },
     detectedDevices() {
         return Black.Collections.Devices.find({parent: Template.currentData()._id});
     }
 });
-
-
-Template.enConfigOWLIntuitionNetworkDetectedDevTable.events({
-    'click .OWLwatch': function (evt) {
-        evt.preventDefault();
-        evt.stopPropagation();
-        let device=$(evt.target).closest('tr')[0].dataset['device'];
-        if (device) {
-            let realdev = Black.Collections.Devices.findOne({_id: device});
-            if (realdev) {
-                Meteor.call("toggleWatch", realdev._id);
-            }
-            else {
-                log.error(`Associated device (${device}) not found.`);
-            }
-        }
-        else {
-            log.error("data-device attribute required on parent TR element ");
-        }
-    },
-    'click .OWLrecord': function (evt) {
-        evt.preventDefault();
-        evt.stopPropagation();
-        let device=$(evt.target).closest('tr')[0].dataset['device'];
-        if (device) {
-            let realdev = Black.Collections.Devices.findOne({_id: device});
-            if (realdev) {
-                Meteor.call("toggleRecord", realdev._id);
-            }
-            else {
-                log.error(`Associated device (${device}) not found.`);
-            }
-        }
-        else {
-            log.error("data-device attribute required on parent TR element ");
-        }
-    }
-
-});
-
-Template.enConfigOWLIntuitionNetworkDetectedDevTableRow.helpers({
-    disableOnStoppedParent() {
-        return parentStopped.get() ? 'disabled' : '';
-    }
-});
-
 
 
 

@@ -1,0 +1,29 @@
+<template name="DeletePhysDevButton">
+    {{#if modalDelete}}
+        <button class="btn btn-xs btn-danger" role="button" data-toggle="modal" data-target="#delphysdev{{dev}}"
+                title="{{_ 'delete'}}" {{isNotRunning}}><span class="glyphicon glyphicon-remove-sign"></span></button>
+        <div id="delphysdev{{dev}}" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>{{_ "ConfirmDeletion"}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        {{#if simpleDelete}}
+                            <p>{{_ "warnPhyDevDelete" name }}</p>
+                            <div class="alert alert-danger" role="alert"><span
+                                    class="glyphicon glyphicon-alert"></span> {{_ "warnNoUndo"}}</div>
+                        {{else}}
+                            {{> Template.dynamic template=deleteTemplate}}
+                        {{/if}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger confirmed"
+                                data-dismiss="modal">{{_ "delete"}}</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{_ "cancel"}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/if}}
+</template>

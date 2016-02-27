@@ -8,7 +8,7 @@ Meteor.publish("deviceTemplates", function (typeFilter) {
             let filterIn = (typeof typeFilter === 'string') ? [typeFilter] : typeFilter;
             let filter = filterIn.filter(x => availableTypes.indexOf(x) !== -1);
             if (filter.length > 0) {
-                return Black.Collections.DeviceTemplates.find({type: {$in: filter}});
+                return Black.Collections.DeviceTemplates.find({'header.type': {$in: filter}});
             }
         }
         else {  // Return everything

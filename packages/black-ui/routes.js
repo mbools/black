@@ -92,6 +92,17 @@ adminSection.route('/physicaldevices/config/:device', {
     name: 'configPhysDevices'
 });
 
+//adminSection.route('/physicaldevices/delete/:device', {
+//    action: function () {
+//        BlazeLayout.render('main', {
+//            header: 'top_bar',
+//            main: 'adminDeletePhysicalDevice',
+//            workpanel: 'black_ui_physicalDeviceTemplateList'
+//        });
+//    },
+//    name: 'deletePhysDevices'
+//});
+
 
 /////////////////////////////////////////////////////////////////////
 // Design functions and tools

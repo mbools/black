@@ -1,0 +1,8 @@
+<template name="ConfigPhysDevButton">
+    {{#if onConfigPage dev}}
+        <!-- No configuration button if we're on the page already -->
+    {{else}}
+        <a href="{{configPath dev}}" class="btn btn-xs btn-primary" role="button"
+           title="{{_ 'configure'}}"><span class="glyphicon glyphicon-cog"></span></a>
+    {{/if}}
+</template>

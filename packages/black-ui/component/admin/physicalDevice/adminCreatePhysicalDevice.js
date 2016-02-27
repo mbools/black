@@ -11,6 +11,7 @@ Template.adminCreatePhysicalDevice.onCreated(function () {
 });
 
 Template.adminCreatePhysicalDevice.onRendered(function () {
+    Session.set(Black.SessionVars.EDITING_PHYS_DEV, undefined);
 });
 
 Template.adminCreatePhysicalDevice.helpers({
@@ -18,9 +19,10 @@ Template.adminCreatePhysicalDevice.helpers({
             let template = null;
             template = FlowRouter.getParam('template');
 
-            let devFactoryName = deviceFactoryName(template);
-            if (devFactoryName) {
-                return Black.utilities.getUserLanguage() + 'Create' + devFactoryName;
+            let deviceTemplate = Black.Collections.DeviceTemplates.findOne({_id: template});
+            if (deviceTemplate.ui && deviceTemplate.ui.createTemplate) {
+
+                return Black.utilities.getUserLanguage() + deviceTemplate.ui.createTemplate;
             }
             else {
                 return Black.utilities.getUserLanguage() + "Error";
@@ -73,8 +75,8 @@ let createDevice = function (factory) {
 let deviceFactoryName = function (template) {
     if (template) {
         let deviceTemplate = Black.Collections.DeviceTemplates.findOne({_id: template});
-        if (deviceTemplate && deviceTemplate.factory) {
-            return deviceTemplate.factory;
+        if (deviceTemplate && deviceTemplate.header && deviceTemplate.header.factory) {
+            return deviceTemplate.header.factory;
         }
     }
     return '';

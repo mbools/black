@@ -1,0 +1,8 @@
+{
+  "portInUse": "This Port and UDPGroup combination is in use by another device.",
+  "warnNoUndo": "This operation cannot be undone!",
+  "warnPhyDevDelete": "You are about to delete %s",
+  "ConfirmDeletion": "Confirm Deletion",
+  "warnAssociatedDevs": "This device has associated devices, listed below, that will also be deleted."
+
+}

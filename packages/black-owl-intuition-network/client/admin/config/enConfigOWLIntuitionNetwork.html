@@ -105,30 +105,51 @@
                    title="Store device settings">
             <button id="resetButton" type="button" value="Reset" class="btn btn-default"
                     title="Restore current values" {{formDisabled}}>{{_ "Reset"}}</button>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{_ "controls"}}</label>
+                <div class="col-sm-3">{{> enOWLIntuitionNetworkStateButtons}}</div>
+            </div>
         </form>
-        <button id="runButton" type="button" {{formInvalid}}  value="{{isRunning}}" class="btn btn-default"
-                title="Toggle device on/off">{{#if isRunning}}{{_ "Stop"}}{{else}}{{_ "Start"}}{{/if}}</button>
         {{#if conflicted}}
             <div class="alert-danger">
                 <span class="glyphicon glyphicon-alert"></span>
-                This Port and UDPGroup combination is in use by another device.
+                {{_ "portInUse"}}
             </div>
         {{/if}}
     {{/if}}
+
 </template>
+
 
 <template name="enConfigOWLIntuitionNetworkDetectedDevTable">
     <table class="table table-striped">
         <thead>
-            <tr>
-                <th>Device</th>
-                <th>Type</th>
-                <th>Controls</th>
-            </tr>
+        <tr>
+            <th>{{_ "device"}}</th>
+            <th>{{_ "type"}}</th>
+            <th>{{_ "controls"}}</th>
+        </tr>
         </thead>
         <tbody>
         {{#each detectedDevices}}
             {{> enConfigOWLIntuitionNetworkDetectedDevTableRow}}
+        {{else}}
+            {{#if isRunning}}
+                <tr>
+                    <td colspan="3">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                 style="width: 100%">
+                                <span>{{_ "waitOnSensor"}}</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="3" style="text-align: center">{{_ "startToDetect"}}</td>
+                </tr>
+            {{/if}}
         {{/each}}
         </tbody>
     </table>
@@ -138,7 +159,7 @@
     <tr data-device="{{_id}}">
         <td>{{_id}}</td>
         <td>{{type}}</td>
-        <td>{{#if watching}}<a href="#" class="OWLwatch btn btn-xs btn-primary" role="button" {{disableOnStoppedParent}} title="{{_ 'WatchSensorOn'}}"><span class="glyphicon glyphicon-eye-open"></span></a>{{else}}<a href="#" class="OWLwatch btn btn-xs btn-default" role="button"  title="{{_ 'WatchSensorOff'}}" {{disableOnStoppedParent}}><span class="glyphicon glyphicon-eye-close OWLwatch"></span></a>{{/if}}
-        {{#if recording}}<a href="#" class="OWLrecord btn btn-xs btn-primary" role="button" {{disableOnStoppedParent}} title="{{_ 'RecordSensorOn'}}"><span class="glyphicon glyphicon-cd"></span></a>{{else}}<a href="#" class="OWLrecord btn btn-xs btn-default" role="button"  title="{{_ 'RecordSensorOff'}}" {{disableOnStoppedParent}}><span class="glyphicon glyphicon-cd"></span></a>{{/if}}</td>
+        <td>{{> enOWLIntuitionNetworkDetectedDevStateButtons}}</td>
     </tr>
 </template>
+

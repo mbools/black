@@ -1,0 +1,17 @@
+<template name="enDeleteOWLIntuitionNetworkModal">
+    {{#if Template.subscriptionsReady}}
+        {{#if hasChildren}}
+            <p>{{_ "warnPhyDevDelete" name}}.</p>
+            <p>{{_ "warnAssociatedDevs"}}</p>
+            <div class="well">
+                {{#each childDevices}}
+                    <p>{{header.name}}</p>
+                {{/each}}
+            </div>
+        {{else}}
+            <p>{{_ "warnPhyDevDelete" name }}</p>
+        {{/if}}
+    {{/if}}
+    <div class="alert alert-danger" role="alert"><span
+            class="glyphicon glyphicon-alert"></span> {{_ "warnNoUndo"}}</div>
+</template>

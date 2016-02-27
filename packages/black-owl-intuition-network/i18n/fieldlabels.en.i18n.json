@@ -7,5 +7,9 @@
   "password": "Password",
   "enterOWLDetails": "Enter login details for OWL Intuition website",
   "owlUsername": "OWL Username",
-  "owlPassword": "OWL Password"
+  "owlPassword": "OWL Password",
+
+  "controls": "Controls",
+  "type": "Type",
+  "device": "Device"
 }

@@ -39,7 +39,9 @@ Package.onUse(function(api) {
     'devices/black-deviceTemplates.js',
     'devices/black-device.js',
     'devices/black-physicalDevice.js',
-    'devices/black-virtualDevice.js'
+    'devices/black-virtualDevice.js',
+
+    'devices/black_deletePhysicalDevice.js'
     ], ['server']);
 });
 

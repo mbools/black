@@ -15,7 +15,7 @@ Template.adminConfigPhysicalDevice.onRendered(function () {
 Template.adminConfigPhysicalDevice.helpers({
         deviceExists: function () {
             let devId = FlowRouter.getParam('device');
-            return (devId && PhysicalDevices.findOne({_id: devId}));
+            return (devId && Black.Collections.Devices.findOne({_id: devId}));
         },
         template: function () {
             let devFactoryName = null;
@@ -23,18 +23,17 @@ Template.adminConfigPhysicalDevice.helpers({
             if (devId) {
                 let device = Black.Collections.Devices.findOne({_id: devId});
                 if (device) {
-                    devFactoryName = device.header.factory; // The factory  used to create this device
+                    if (device.ui.configTemplate) {
+                        return Black.utilities.getUserLanguage() + device.ui.configTemplate;
+                    }
+                    else {
+                        return Black.utilities.getUserLanguage() + "Error";
+                    }
                 }
             } else {
                 // TODO Problem
             }
 
-            if (devFactoryName) {
-                return Black.utilities.getUserLanguage() + 'Config' + devFactoryName;
-            }
-            else {
-                return Black.utilities.getUserLanguage() + "Error";
-            }
         },
         device: function () {
             if (!Session.get(Black.SessionVars.EDITING_PHYS_DEV)) {

@@ -9,20 +9,19 @@
 </template>
 
 <template name="physicalDeviceList">
-    <table class="table table-striped">
+    <table class="table table-striped treetable" style="table-layout: fixed">
         <thead>
         <tr>
-            <th>{{_ "name"}} {{> helpButton doc="physDevName"}}</th>
+            <th data-jtt-tree="">{{_ "name"}} {{> helpButton doc="physDevName"}}</th>
             <th>{{_ "manufacturer"}} {{> helpButton doc="physDevManufacturer"}}</th>
             <th>{{_ "model"}} {{> helpButton doc="physDevModel"}}</th>
             <th>{{_ "description"}} {{> helpButton doc="physDevDescription"}}</th>
-            <th>{{_ "status"}} {{> helpButton doc="physDevStatus"}}</th>
             <th>{{_ "controls"}} {{> helpButton doc="physDevControls"}}</th>
         </tr>
         </thead>
-        <tbody>
-        {{#each physicalDevices}}
-            {{> physicalDeviceStatus}}
+        <tbody class="sortable">
+        {{#each device in physicalDevices}}
+            {{> physicalDeviceStatus device=device}}
         {{else}}
             <tr>
                 <td colspan="5">{{_ "none"}}</td>
@@ -33,12 +32,11 @@
 </template>
 
 <template name="physicalDeviceStatus">
-    <tr>
-        <td><a href="{{configPath _id}}">{{header.name}}</a></td>
-        <td>{{header.manufacturer}}</td>
-        <td>{{header.model}}</td>
-        <td>{{header.description}}</td>
-        <td>{{#if running}}Running{{else}}Stopped{{/if}}</td>
-        <td><!--Controls--></td>
+    <tr data-device="{{device._id}}"  data-jtt-id="{{device._id}}" data-jtt-fixed-parent="{{device.parent}}">
+        <td>{{device.header.name}}</td>
+        <td>{{device.header.manufacturer}}</td>
+        <td>{{device.header.model}}</td>
+        <td>{{device.header.description}}</td>
+        <td>{{> Template.dynamic template=stateButtons data=device}}</td>
     </tr>
 </template>

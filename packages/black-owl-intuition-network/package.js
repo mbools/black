@@ -38,10 +38,16 @@ Package.onUse(function (api) {
         [
             'client/admin/create/enCreateOWLIntuitionNetwork.html',
             'client/admin/create/enCreateOWLIntuitionNetwork.js',
+            'client/admin/delete/enDeleteOWLIntuitionNetworkModal.html',
+            'client/admin/delete/enDeleteOWLIntuitionNetworkModal.js',
             'client/admin/config/enConfigOWLIntuitionNetwork.html',
             'client/admin/config/enConfigOWLIntuitionNetwork.js',
             'client/docs/help/en/enConfigOWLIntuitionNetworkPort.html',
             'client/docs/help/en/enConfigOWLIntuitionNetworkUDPGroup.html',
+            'client/controls/NetworkDevice/enOWLIntuitionNetworkStateButtons.html',
+            'client/controls/NetworkDevice/enOWLIntuitionNetworkStateButtons.js',
+            'client/controls/SensorDevice/enOWLIntuitionNetworkDetectedDevStateButtons.html',
+            'client/controls/SensorDevice/enOWLIntuitionNetworkDetectedDevStateButtons.js',
         ],
         ['client']);
 
@@ -51,6 +57,7 @@ Package.onUse(function (api) {
             'i18n/fieldlabels.en.i18n.json',
             'i18n/buttonlabels.en.i18n.json',
             'i18n/tooltips.en.i18n.json',
+            'i18n/messages.en.i18n.json',
         ],
         ['client', 'server']);
 

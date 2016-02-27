@@ -85,7 +85,11 @@ Meteor.publish("udpListenerDevices", function () {  // Publish udpListener devic
 var startDevices = function () {
     // Find devices that need starting
     log.info('Starting all physical devices set to startOnServerStart...');
-    let startupDevs = Black.Collections.Devices.find({'header.type': Black.Constants.deviceTypes.PHYSICAL, startOnServerStart: true}
+    let startupDevs = Black.Collections.Devices.find({
+            'header.factory': {$exists: true},
+            'header.type': Black.Constants.deviceTypes.PHYSICAL,
+            startOnServerStart: true
+        }
     ).forEach((dev) => {
         if (stampit.isStamp(Black.devicePlugins[dev.header.factory])) {
             try {
@@ -101,7 +105,7 @@ var startDevices = function () {
             }
         }
         else {
-            log.error("No stamp available for physical device " + dev.header.factory);
+            log.error("No stamp available for physical device (" + dev._id + ")" + dev.header.factory);
         }
     });
     log.info('...All physical devices set to startOnServerStartup started.');
@@ -110,7 +114,11 @@ var startDevices = function () {
 var stopAllDevices = function () {
     // Find devices that need stopping
     log.info('Stopping all physical devices...');
-    let startupDevs = Black.Collections.Devices.find({'header.type': Black.Constants.deviceTypes.PHYSICAL, running: true}
+    let startupDevs = Black.Collections.Devices.find({
+            'header.factory': {$exists: true},
+            'header.type': Black.Constants.deviceTypes.PHYSICAL,
+            running: true
+        }
     ).forEach((dev) => {
         if (stampit.isStamp(Black.devicePlugins[dev.header.factory])) {
             try {
@@ -126,7 +134,7 @@ var stopAllDevices = function () {
             }
         }
         else {
-            log.error("No stamp available for physical device " + dev.header.factory);
+            log.error("No stamp available for physical device (" + dev._id + ")" + dev.header.factory);
         }
     });
     log.info('...All physical devices stopped.');

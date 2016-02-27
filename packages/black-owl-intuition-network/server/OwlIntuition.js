@@ -3,24 +3,39 @@
 let dgram = Npm.require('dgram');
 
 // TODO: PORT and UDPGROUP to be in configuration data. These are set by OWL, so will the universal to all installations.
-const PORT = 22600;
+const PORT = '22600';
 const UDPGROUP = '224.192.32.19';
 
 const HEADER = {
-    manufacturer: 'OWL',
-    model: 'some model',
+    manufacturer: 'OWL Intuition',
+    model: 'TSE200-101',
     type: 'physical',
-    name: 'OWL Intuition Network',
+    name: 'Intuition-E Gateway',
+    description: 'OWL Intuition-E Web based energy monitor',
     factory: 'OWLIntuitionNetwork'
+};
+
+const UI = {
+    createTemplate: 'CreateOWLIntuitionNetwork',
+    configTemplate: 'ConfigOWLIntuitionNetwork',
+    deleteTemplate: 'DeleteOWLIntuitionNetworkModal',
+    stateButtonsTemplate: 'OWLIntuitionNetworkStateButtons'
+};
+
+
+const SUBDEVUI = {
+    createTemplate: 'CreateOWLIntuitionNetwork',
+    configTemplate: 'ConfigOWLIntuitionNetwork',
+    stateButtonsTemplate: 'OWLIntuitionNetworkDetectedDevStateButtons'
 };
 
 
 const SUBDEVHEADER = {
-    manufacturer: 'OWL',
-    model: 'some other model',
+    manufacturer: 'OWL Intuition',
+    model: 'TSE200-101',
     type: 'physical',
-    name: 'OWL Intuition Network',
-    factory: 'OWLIntuitionNetwork'
+    description: 'OWL Intuition Single Channel Transmitter Unit',
+    name: 'Intuition Electricity Sensor'
 };
 
 
@@ -36,13 +51,14 @@ const owlIntuitionNetwork = stampit({
         }; // Avoids circular reference in client when stringifying OWLIntuitionNetwork object
     },
     props: {
-        header: HEADER
+        header: HEADER,
+        ui: UI
     },
     refs: {
         port: PORT,
         udpgroup: UDPGROUP,
         startOnServerStart: true,   // Indicates to the Core whether this device should be autostarted when the server starts
-
+        backfill: false,
     },
     methods: {
         start() {
@@ -76,10 +92,13 @@ const owlIntuitionNetwork = stampit({
                                 deviceInfo = {
                                     _id: deviceId,
                                     header: SUBDEVHEADER,
+                                    ui: SUBDEVUI,
                                     type: 'electricity',
                                     watching: false,
                                     recording: false,
-                                    parent: self._id
+                                    running: true,              // Has to be running as it's state is controlled be parent
+                                    parent: self._id,
+                                    configDevice: self._id     // These devices are configured through the parent Network device
                                 };
                                 Black.Collections.Devices.insert(deviceInfo, function (err, result) {
                                     if (err) log.error(`Failed to add OWLIntuitionNetwork device id:${deviceId} to Devices. With Error: ${err}`);
@@ -210,7 +229,7 @@ Meteor.methods({
     black_createOWLNetwork(dev) {
         // It's possible we get called more than once, if the device already exists, just return it
         let newDev = Black.Collections.Devices.findOne({port: dev.port, udpgroup: dev.udpgroup});
-        if (typeof newDev === 'undefined') {
+        if (newDev === undefined) {
             log.debug(`creating device ${dev.port} : ${dev.udpgroup}`);
             Black.Collections.Devices.insert(Black.devicePlugins['OWLIntuitionNetwork'](dev).asDoc());
             newDev = Black.Collections.Devices.findOne({port: dev.port, udpgroup: dev.udpgroup});
@@ -288,10 +307,10 @@ Meteor.startup(function () {
     // The system will use .factory to actually create real devices
     //
     if (!Black.Collections.DeviceTemplates.findOne({
-            manufacturer: HEADER.manufacturer,
-            model: HEADER.model
+            'header.manufacturer': HEADER.manufacturer,
+            'header.model': HEADER.model
         })) {
-        Black.Collections.DeviceTemplates.insert(HEADER, function (err, result) {
+        Black.Collections.DeviceTemplates.insert({header: HEADER, ui: UI}, function (err, result) {
                 if (err) {
                     log.error(`Failed to register ${HEADER.factory} as DeviceTemplate. With Error: ${err}`);
                 }

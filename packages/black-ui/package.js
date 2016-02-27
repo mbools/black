@@ -22,6 +22,7 @@ Package.onUse(function (api) {
     api.use('kadira:flow-router');
     api.use('kadira:blaze-layout');
     api.use('pascoual:bootstrap-contextmenu');
+    api.use('mizzao:jquery-ui');
 
 
     api.use("tap:i18n", ['client', 'server']);
@@ -29,6 +30,7 @@ Package.onUse(function (api) {
     //api.imply('tap:i18n');
 
     api.use("jss:jstree");
+
 
     // Pull in black-core functionality
     api.use('mbools:black-core');
@@ -42,6 +44,11 @@ Package.onUse(function (api) {
         'style.less',
         'routes.js',
         'black-ui.js',
+        'lib/jquery.ui.touch-punch.min.js', // Included here to make sure it's loaded AFTER JQueryUI
+        'meteorhacks.js',                   // Get around some wrinkles with Meteor's API
+        'lib/jstable-tree.js',              // Prototype for jstable-tree
+        'lib/styles.css',              // Prototype for jquery tree-table
+        'lib/jquery-tree-table.js',              // Prototype for jquery tree-table
     ], 'client');
 
 
@@ -106,6 +113,12 @@ Package.onUse(function (api) {
         'component/admin/physicalDevice/adminPhysicalDevicesHome.html',
         'component/admin/physicalDevice/adminPhysicalDevicesHome.js',
 
+        'component/admin/physicalDevice/ConfigPhysDevButton.html',
+        'component/admin/physicalDevice/ConfigPhysDevButton.js',
+        'component/admin/physicalDevice/DeletePhysDevButton.html',
+        'component/admin/physicalDevice/DeletePhysDevButton.js',
+
+
         'docs/en/help/en_adminPhysicalDevicesHome.html',
         'docs/en/help/en_physDevDescription.html',
         'docs/en/help/en_physDevManufacturer.html',
@@ -127,6 +140,7 @@ Package.onUse(function (api) {
     /// Language files
     api.addFiles([
         'i18n/errormsgs.en.i18n.json',
+        'i18n/dialogmessages.en.i18n.json',
         'i18n/menuitems.en.i18n.json',
         'i18n/otheruielements.en.i18n.json'
     ], ['client'])
